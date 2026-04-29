@@ -1,1 +1,1 @@
-# DL_Practice-26-1-semester
+# DL_Practice-26-1
