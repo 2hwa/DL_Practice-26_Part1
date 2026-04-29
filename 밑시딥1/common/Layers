@@ -5,4 +5,12 @@ class Relu:
         else:
             y=0
         return y
-    git config --global user.name
+    
+    def backward(self,dout):
+        if self.x>0:
+            dx = dout
+        else:
+            dx = 0
+
+class Affine:
+    def forward(self,x,w,y):
