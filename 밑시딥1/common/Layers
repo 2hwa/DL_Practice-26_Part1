@@ -5,4 +5,4 @@ class Relu:
         else:
             y=0
         return y
-    
+    git config --global user.name
