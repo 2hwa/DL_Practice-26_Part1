@@ -1,5 +1,8 @@
 import numpy as np
 
+
+
+
 class Relu:
     def __init__(self):
         self.mask = None #실수로 backward 먼저수행시 error.. 방지용 + 변수관리
@@ -15,6 +18,9 @@ class Relu:
         dout[self.mask] = 0 #forward를 무조건 작동시킨 상태에서 backpropagation하기 때문에 self.mask에 적용되어잇음.
         dx = dout
         return dx
+
+
+
 
 class Affine:
     def __init__(self, W, b):
@@ -47,5 +53,3 @@ class Affine:
         dx = dx.reshape(*self.originalx)
 
         return dx
-
-
