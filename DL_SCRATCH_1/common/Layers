@@ -59,8 +59,8 @@ class softmaxwithloss:
 
       def forward(self,a,t):
             self.t = t
-            self.y = softmax(a)
-            self.loss = cee()
+            self.y = f.softmax(self, a)
+            self.loss = f.cee(self, self.y, self.t)
 
             return self.loss
 
@@ -69,3 +69,10 @@ class softmaxwithloss:
            dx = (self.y - self.t)/batch_size
 
            return dx
+
+
+#test code
+swl = softmaxwithloss()
+a = np.array([[0.3, 2.9, 4.0], [0.1, 0.2, 0.3]])
+t = np.array([[0, 0, 1], [0, 1, 0]])
+print(swl.forward(a,t))

@@ -10,7 +10,7 @@ def softmax(self, a):
 
         return y
     
-def cee(self): #cross entropy error (CEE)
+def cee(self, y, t): #cross entropy error (CEE)
     batch_size = self.y.shape[0] # col 기준 = 행의 갯수
     loss = -np.sum(self.t*np.log(self.y + 1e-7))/batch_size
 
