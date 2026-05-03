@@ -1,7 +1,5 @@
 import numpy as np
-
-
-
+from .functions import *
 
 class Relu:
     def __init__(self):
@@ -53,3 +51,15 @@ class Affine:
         dx = dx.reshape(*self.originalx)
 
         return dx
+
+class softmaxwithloss:
+      def __init__(self):
+            self.y = None
+            self.t = None
+
+      def forward(self,a,t):
+            self.t = t
+            self.y = softmax(a)
+            self.loss = cee()
+
+            return self.loss

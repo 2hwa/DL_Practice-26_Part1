@@ -1,3 +1,4 @@
 {
-    "python-envs.defaultEnvManager": "ms-python.python:system"
+    "python-envs.defaultEnvManager": "ms-python.python:system",
+    "python.defaultInterpreterPath": "/home/codespace/.python/current/bin/python3 /workspaces/DL_Practice-26_Part1/DL_SCRATCH_1/common/Layers.py"
 }
