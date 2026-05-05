@@ -76,3 +76,4 @@ swl = softmaxwithloss()
 a = np.array([[0.3, 2.9, 4.0], [0.1, 0.2, 0.3]])
 t = np.array([[0, 0, 1], [0, 1, 0]])
 print(swl.forward(a,t))
+

@@ -15,7 +15,3 @@ def cee(self, y, t): #cross entropy error (CEE)
     loss = -np.sum(self.t*np.log(self.y + 1e-7))/batch_size
 
     return loss
-
-
-
-            
