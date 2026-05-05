@@ -28,9 +28,7 @@ class TwoLayerNet:
         self.layers['Affine1'] = l.Affine(W1, b1)
         self.layers['Relu1'] = l.Relu()
         self.layers['Affine2'] = l.Affine(W2, b2)
-        self.lastLayer = l.softmaxwithloss() #왜 굳이 lastLayer로 따로 빼는거지? - loss계산할 때만 필요하기 때문. predict할 때는 필요없음.
-
-
+        self.lastLayer = l.softmaxwithloss() # 이 코드에서 swl가 이미 잇는데 굳이 필요한가..?
 
 
     def predict(self, x):
