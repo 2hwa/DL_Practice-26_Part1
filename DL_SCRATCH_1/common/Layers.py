@@ -48,7 +48,10 @@ class Affine:
         self.dW = np.dot(self.x.T, dout)
         self.db = np.sum(dout, axis=0)
         
-        dx = dx.reshape(*self.originalx)
+        dx = dx.reshape(*self.originalx) 
+        #역전파용
+        #원래의 x의 shape로 되돌려주는 코드. *는 언팩연산자, 
+        # #self.originalx는 튜플이니까 언팩연산자로 풀어서 reshape에 넣어주는 것.
 
         return dx
 
