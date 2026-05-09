@@ -7,11 +7,11 @@ from collections import OrderedDict
 
 class TwoLayerNet:
     def __init__(self):
-        self.optimizer = o.SGD()
+        self.optimizer = o.Adam()
         self.params = {}
-        self.params['W1'] = np.random.rand(784,100) #가중치 초기화
+        self.params['W1'] = np.random.rand(784,100)* np.sqrt(2.0 / 784) #가중치 초기화
         self.params['b1'] = np.random.rand(100) #편향 초기화
-        self.params['W2'] = np.random.rand(100,10)
+        self.params['W2'] = np.random.rand(100,10)* np.sqrt(2.0 / 100)
         self.params['b2'] = np.random.rand(10)
         self.grads = {}
 
