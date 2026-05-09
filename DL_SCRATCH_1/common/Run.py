@@ -1,7 +1,7 @@
 import gzip
 import numpy as np
 import matplotlib.pyplot as plt
-import TwoLayerNet
+import MulLayerNet
 import functions as f
 import Layers as l
 import optimizers as o
@@ -42,10 +42,10 @@ def to_one_hot(t, num_classes=10):
     # 정답 인덱스 위치만 1로 채웁니다.
     return np.eye(num_classes)[t]
 
-dl = TwoLayerNet.TwoLayerNet()
-iters_num = 10000
+dl = MulLayerNet.MulLayerNet()
+iters_num = 2500
 train_size = x_train.shape[0]
-batch_size = 100
+batch_size = 64
 learning_rate = 0.01
 loss_history = []
 
@@ -58,7 +58,7 @@ for i in range(iters_num):
     x_batch = x_train[batch_mask]
     t_batch = t_train[batch_mask]
 
-    current_loss = dl.modify(x_batch, t_batch)
+    current_loss = dl.run(x_batch, t_batch)
     loss_history.append(current_loss)
     print(f"반복 {i+1}/{iters_num}, Loss = {current_loss} 완료")
 

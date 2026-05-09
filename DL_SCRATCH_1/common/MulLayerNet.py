@@ -5,27 +5,43 @@ import optimizers as o
 from collections import OrderedDict
 #affine1 - batchnorm - relu1 - affine2 -batchnorm - Relu2 - .. - affine 5 - swl
 
+
+
 class MulLayerNet:
-    def __init__(self):
+    def __init__(self, input_size=784, hidden_list=[500, 200, 90, 35], output_size=10):
         self.optimizer = o.Adam()
         self.params = {}
+        self.grads = {}
+        self.layers = OrderedDict()
+        self.input_size = input_size
+        self.hidden_list = hidden_list
+        self.output_size = output_size
+
         all_size_list = [self.input_size] + self.hidden_list + [self.output_size]
-        
+
+        Affine, Relu, SoftmaxWithLoss = l.Affine, l.Relu, l.softmaxwithloss
+        batchnorm = l.batchnorm
+        Dropout = l.Dropout
+
         for idx in range(1, len(all_size_list)):
         # He 초깃값 적용
             scale = np.sqrt(2.0 / all_size_list[idx-1]) 
             self.params['W' + str(idx)] = scale * np.random.randn(all_size_list[idx-1], all_size_list[idx])
             self.params['b' + str(idx)] = np.zeros(all_size_list[idx])
 
-        self.grads = {}
+        for idx in range(1, len(all_size_list) - 1):
+             self.layers['Affine' + str(idx)] = Affine(self.params['W' + str(idx)], self.params['b' + str(idx)])
+             self.layers['BatchNorm' + str(idx)] = batchnorm(gamma=1.0, beta=0.0)
+             self.layers['ReLU' + str(idx)] = Relu()
+             self.layers['Dropout' + str(idx)] = Dropout(dropout_ratio=0.15)
 
-        W1, b1 = self.params['W1'], self.params['b1']
-        W2, b2 = self.params['W2'], self.params['b2']
-        self.layers = OrderedDict()
-        self.layers['Affine1'] = l.Affine(W1, b1)
-        self.layers['Relu1'] = l.Relu()
-        self.layers['Affine2'] = l.Affine(W2, b2)
-        self.lastLayer = l.softmaxwithloss()
+
+        last_idx = len(all_size_list) - 1
+        self.layers['Affine' + str(last_idx)] = Affine(self.params['W' + str(last_idx)], self.params['b' + str(last_idx)])
+
+        self.lastLayer = SoftmaxWithLoss()
+
+
 
 
     def predict(self, x):
@@ -37,14 +53,7 @@ class MulLayerNet:
         y = self.predict(x)
         return self.lastLayer.forward(y,t)
     
-    def run(self, x, t, input_size, hidden_list, output_size):
-        # Update the network architecture with the provided dimensions
-        self.input_size = input_size
-        self.hidden_list = hidden_list
-        self.output_size = output_size
-
-        # Reinitialize the network with the new dimensions
-        self.__init__()
+    def run(self, x, t):
 
         loss_val = self.loss(x,t)
         dout = 1
@@ -53,10 +62,9 @@ class MulLayerNet:
         for i in reversed(list(self.layers.values())):
             dout = i.backward(dout)
 
-        self.grads['W1'] = self.layers['Affine1'].dW
-        self.grads['b1'] = self.layers['Affine1'].db
-        self.grads['W2'] = self.layers['Affine2'].dW
-        self.grads['b2'] = self.layers['Affine2'].db
+        for j in range(1, len(self.hidden_list) + 2):
+             self.grads['W' + str(j)] = self.layers['Affine' + str(j)].dW
+             self.grads['b' + str(j)] = self.layers['Affine' + str(j)].db
 
         self.optimizer.update(self.params, self.grads)
 
