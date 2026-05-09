@@ -7,7 +7,7 @@ class Relu:
 
     def forward(self, x):
         self.mask = (x<=0)
-        out = x.copy
+        out = x.copy()
         out[self.mask] = 0 #out[] << 인덱싱임!
 
         return out
@@ -62,8 +62,8 @@ class softmaxwithloss:
 
       def forward(self,a,t):
             self.t = t
-            self.y = f.softmax(self, a)
-            self.loss = f.cee(self, self.y, self.t)
+            self.y = f.softmax(a)
+            self.loss = f.cee(self.y, self.t)
 
             return self.loss
 
@@ -75,8 +75,8 @@ class softmaxwithloss:
 
 
 #test code
-swl = softmaxwithloss()
-a = np.array([[0.3, 2.9, 4.0], [0.1, 0.2, 0.3]])
-t = np.array([[0, 0, 1], [0, 1, 0]])
-print(swl.forward(a,t))
+#swl = softmaxwithloss()
+#a = np.array([[0.3, 2.9, 4.0], [0.1, 0.2, 0.3]])
+#t = np.array([[0, 0, 1], [0, 1, 0]])
+#print(swl.forward(a,t))
 
