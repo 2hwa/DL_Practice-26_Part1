@@ -153,7 +153,7 @@ class Dropout:
 im2col = f.im2col
 col2im = f.col2im
 
-class Convolution:
+class Conv:
     def __init__ (self, W, b, stride=1, pad=0):
         self.W = W
         self.b = b
@@ -181,6 +181,19 @@ class Convolution:
         out = out.reshape(N, out_h, out_w, -1).transpose(0, 3, 1, 2)
 
         return out
+
+    def backward(self, dout):
+        FN, C, FH, FW = self.W.shape
+        dout = dout.transpose(0, 2, 3, 1).reshape(-1, FN)
+
+        self.db = np.sum(dout, axis=0)
+        self.dW = np.dot(self.col.T, dout)
+        self.dW = self.dW.transpose(1, 0).reshape(FN, C, FH, FW)
+
+        dcol = np.dot(dout, self.col_W.T)
+        dx = col2im(dcol, self.x.shape, FH, FW, self.stride, self.pad)
+
+        return dx
         
         
 
